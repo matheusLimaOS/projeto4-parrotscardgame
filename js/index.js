@@ -46,7 +46,13 @@ function criarCartas(numCartas){
         cards.appendChild(card);
     }
 }
+function apagarCartas(){
+    let cards = document.querySelector(".cards");
+    for(i=0;i<numCartas;i++){
+        cards.children[0].remove();
+    }
 
+}
 function virarCarta(card){
     movimentos++;
     if(jaExisteCartaVirada){
