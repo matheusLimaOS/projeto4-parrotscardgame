@@ -42,6 +42,14 @@ body {
     height: 100px;
 }
 
+.displayNone{
+    display: none;
+}
+
+.card:hover{
+    cursor:pointer;
+}
+
 @media (max-width: 650px) {
     .navbar h1{
         font-size: 36px;
