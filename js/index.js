@@ -26,6 +26,27 @@ function inicio(){
 
     criarCartas(numCartas,arrayCartas);
 }
+function criarCartas(numCartas){
+    let cards = document.querySelector(".cards");
+    let card;
+    let img;
+    let img2;
+
+    for(i=0;i<numCartas;i++){
+        card = document.createElement("li");
+        img = document.createElement("img");
+        img2 = document.createElement("img");
+        card.classList.add("card");
+        img.setAttribute("src","./img/front 5.png");
+        img2.setAttribute("src","/img/"+arrayCartas[i]+".gif");
+        img2.classList.add("displayNone");
+        card.appendChild(img);
+        card.appendChild(img2);
+        card.setAttribute("onclick","virarCarta(this)");
+        cards.appendChild(card);
+    }
+}
+
 
 
 inicio();
