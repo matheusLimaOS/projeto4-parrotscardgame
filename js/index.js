@@ -47,6 +47,45 @@ function criarCartas(numCartas){
     }
 }
 
+function virarCarta(card){
+    movimentos++;
+    if(jaExisteCartaVirada){
+        card.children[0].classList.add("displayNone");
+        card.children[1].classList.remove("displayNone");
+        let img = cartaVirada.children[1].getAttribute('src');
+        let img2 = card.children[1].getAttribute('src');
+        if(img===img2){
+            paresDescobertos ++;
+            card.removeAttribute("onclick");
+            cartaVirada.removeAttribute("onclick");
+            if(paresDescobertos === numCartas/2){
+                setTimeout(()=>{
+                    let reinicio = prompt("Parabéns, você ganhou em " + movimentos + " jogadas!\nDeseja jogar novamente? (sim ou não)");
+                    console.log(reinicio.toLowerCase());
+                    if(reinicio.toLowerCase() === 'sim'){
+                        apagarCartas();
+                        inicio();
+                    }
+                },1000);
+            }
+        }
+        else{
+            setTimeout(()=>{
+                card.children[0].classList.remove("displayNone");
+                card.children[1].classList.add("displayNone");
+                cartaVirada.children[0].classList.remove("displayNone");
+                cartaVirada.children[1].classList.add("displayNone");
+            },1000);
+        }
+        jaExisteCartaVirada = false;
+    }
+    else{
+        jaExisteCartaVirada = true;
+        cartaVirada = card;
+        card.children[0].classList.add("displayNone");
+        card.children[1].classList.remove("displayNone");
+    }
+}
 
 
 inicio();
