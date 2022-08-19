@@ -21,6 +21,7 @@ body {
     font-size: 56px;
 }
 .cards{
+    padding-top: 50px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -30,10 +31,10 @@ body {
 }
 
 .card{
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 150px;
     position: relative;
-    margin: 35px 17.5px 35px 17.5px;
+    margin: 0px 17.5px 35px 17.5px;
 
 }
 .card img{
@@ -93,7 +94,5 @@ body {
         flex-wrap: nowrap;
         flex-direction: column;
     }
-    .card{
-        margin: 35px 17.5px 35px 17.5px;
-    }
+    
 }
