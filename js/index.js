@@ -80,6 +80,7 @@ function apagarCartas(){
 
 }
 async function virarCarta(card){
+    event.stopPropagation()
     movimentos++;
     let imgs = card.children;
 
