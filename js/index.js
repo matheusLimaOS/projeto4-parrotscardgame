@@ -5,13 +5,16 @@ let numCartas = 0;
 let movimentos = 0;
 let dataInicio;
 let tempo;
+let numeroExecuções = 0;
+let timer;
 
-async function inicio(){
+function inicio(){
     let i=0;
     let cards = document.querySelector('.cards');
     let clockIcon = document.createElement('ion-icon');
     let tempoRelogio = document.createElement('p');
     let temp = document.createElement('div');
+    numeroExecuções=0;
     clockIcon.setAttribute("name","time-outline");
     temp.classList.add('temporizador');
     temp.appendChild(clockIcon);
@@ -38,7 +41,7 @@ async function inicio(){
         return Math.random() - 0.5;
     })
 
-    await criarCartas(numCartas,arrayCartas);
+    criarCartas(numCartas,arrayCartas);
     dataInicio = new Date();
     comecaTemporizador();
 }
@@ -79,8 +82,12 @@ function apagarCartas(){
     }
 
 }
-async function virarCarta(card){
-    event.stopPropagation()
+function virarCarta(card){
+    numeroExecuções++;
+    console.log(numeroExecuções);
+    if(numeroExecuções>2){
+        return;
+    }
     movimentos++;
     let imgs = card.children;
 
@@ -91,30 +98,34 @@ async function virarCarta(card){
         let img = cartaVirada.children[1].getAttribute('src');
         let img2 = card.children[1].getAttribute('src');
         if(img===img2){
-            paresDescobertos ++;
-            card.removeAttribute("onclick");
-            cartaVirada.removeAttribute("onclick");
-            if(paresDescobertos === numCartas/2){
-                setTimeout(()=>{
-                    let time = tempo.split(":");
-                    let reinicio;
-                    while(true){
-                        reinicio = prompt(`Parabéns, você ganhou em ${movimentos} jogadas!. E com o tempo de ${time[0]} minutos e ${time[1]} segundos!\nDeseja jogar novamente? (sim ou não)`);
-                        
-                        if(reinicio===null){
-                            continue;
+            setTimeout(()=>{
+                clearInterval(timer);
+                numeroExecuções=0;
+                paresDescobertos++;
+                card.removeAttribute("onclick");
+                cartaVirada.removeAttribute("onclick");
+                if(paresDescobertos === numCartas/2){
+                    setTimeout(()=>{
+                        let time = tempo.split(":");
+                        let reinicio;
+                        while(true){
+                            reinicio = prompt(`Parabéns, você ganhou em ${movimentos} jogadas!. E com o tempo de ${time[0]} minutos e ${time[1]} segundos!\nDeseja jogar novamente? (sim ou não)`);
+                            
+                            if(reinicio===null){
+                                continue;
+                            }
+    
+                            if(reinicio.toLowerCase() === 'sim' || reinicio.toLowerCase() === 'não'){
+                                break;
+                            }
                         }
-
-                        if(reinicio.toLowerCase() === 'sim' || reinicio.toLowerCase() === 'não'){
-                            break;
+                        if(reinicio.toLowerCase() === 'sim'){
+                            apagarCartas();
+                            inicio();
                         }
-                    }
-                    if(reinicio.toLowerCase() === 'sim'){
-                        apagarCartas();
-                        inicio();
-                    }
-                },1000);
-            }
+                    },1000);
+                }
+            },1000);
         }
         else{
             setTimeout(()=>{
@@ -122,6 +133,7 @@ async function virarCarta(card){
                 card.children[1].classList.remove("aparece");
                 cartaVirada.children[0].classList.remove("esconde");
                 cartaVirada.children[1].classList.remove("aparece");
+                numeroExecuções=0;
             },1000);
         }
         jaExisteCartaVirada = false;
@@ -130,9 +142,10 @@ async function virarCarta(card){
         jaExisteCartaVirada = true;
         cartaVirada = card;
     }
+
 }
 function comecaTemporizador(){
-    setInterval(function(){
+    timer = setInterval(function(){
       let segundos = 1000;
       let minutos = segundos * 60;
       let hora = minutos*60;
