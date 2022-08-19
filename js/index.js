@@ -99,12 +99,12 @@ function virarCarta(card){
         let img2 = card.children[1].getAttribute('src');
         if(img===img2){
             setTimeout(()=>{
-                clearInterval(timer);
                 numeroExecuções=0;
                 paresDescobertos++;
                 card.removeAttribute("onclick");
                 cartaVirada.removeAttribute("onclick");
                 if(paresDescobertos === numCartas/2){
+                    clearInterval(timer);
                     setTimeout(()=>{
                         let time = tempo.split(":");
                         let reinicio;
