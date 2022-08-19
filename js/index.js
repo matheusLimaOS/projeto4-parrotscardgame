@@ -64,7 +64,7 @@ async function criarCartas(numCartas){
         img.classList.add(["front-face"],["face"]);
         img2.classList.add(["back-face"],["face"]);
         img.setAttribute("src","./img/front 5.png");
-        img2.setAttribute("src","/img/"+arrayCartas[i]+".gif");
+        img2.setAttribute("src","./img/"+arrayCartas[i]+".gif");
 
         card.appendChild(img);
         card.appendChild(img2);
