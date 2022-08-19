@@ -3,6 +3,8 @@ let jaExisteCartaVirada = false;
 let paresDescobertos = 0;
 let numCartas;
 let movimentos = 0;
+let dataInicio;
+let tempo;
 
 function inicio(){
     let i=0;
@@ -12,6 +14,8 @@ function inicio(){
     jaExisteCartaVirada = false;
     paresDescobertos = 0;
     arrayCartas = [];
+    dataInicio = new Date();
+    comecaTemporizador();
 
     while(numCartas < 4 || numCartas > 14 || numCartas%2!==0){
         numCartas = prompt("Número invalido! Por favor Insira um numero par entre 4 e 14!");
@@ -28,7 +32,6 @@ function inicio(){
 
     criarCartas(numCartas,arrayCartas);
 }
-
 function criarCartas(numCartas){
     let cards = document.querySelector(".cards");
     let card;
@@ -74,17 +77,16 @@ async function virarCarta(card){
             cartaVirada.removeAttribute("onclick");
             if(paresDescobertos === numCartas/2){
                 setTimeout(()=>{
+                    let time = tempo.split(":");
                     while(true){
-                        let reinicio = prompt("Parabéns, você ganhou em " + movimentos + " jogadas!\nDeseja jogar novamente? (sim ou não)");
-                        console.log
-                        if(reinicio.toLowerCase() === 'sim' || reinicio.toLowerCase() === 'não'){
+                        let reinicio = prompt(`Parabéns, você ganhou em ${movimentos} jogadas!. E com o tempo de ${time[0]} minutos e ${time[1]} segundos!\nDeseja jogar novamente? (sim ou não)`);
+                        if(reinicio.toLowerCase() === 'sim'){
+                            apagarCartas();
+                            inicio();
+                        }
+                        if(reinicio.toLowerCase() === 'não'){
                             break;
                         }
-                    }
-
-                    if(reinicio.toLowerCase() === 'sim'){
-                        apagarCartas();
-                        inicio();
                     }
                 },1000);
             }
@@ -104,6 +106,28 @@ async function virarCarta(card){
         cartaVirada = card;
     }
 }
+function comecaTemporizador(){
+    setInterval(function(){
+  	    let segundos = 1000;
+        let minutos = segundos * 60;
+        let hora = minutos*60;
+        
+        var atual = new Date();
+        
+        var diferenca = atual - dataInicio;
+        
+        let minutos1 = Math.floor((diferenca % hora) / minutos);
+        let segundos1 = Math.floor((diferenca % minutos) / segundos);
+        if(minutos1 < 10){
+            minutos1 = '0' + minutos1;
+        }
+        if(segundos1 < 10){
+            segundos1 = '0' + segundos1;
+        }
 
+        tempo = minutos1 + ":" + segundos1;
+        document.querySelector('.temporizador').innerHTML = tempo;
+    },1000);
+}
 
 inicio();

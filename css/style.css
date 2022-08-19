@@ -21,6 +21,7 @@ body {
     font-size: 56px;
 }
 .cards{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,9 +71,22 @@ body {
     transform: rotateY(-180deg);
 }
 
+.temporizador{
+    color: white;
+    text-align: center;
+    font-size: 32px;    
+    background-color: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 @media (max-width: 650px) {
     .navbar h1{
         font-size: 36px;
+    }
+    .temporizador{
+        position: fixed;
     }
     .cards{
         flex-wrap: nowrap;
