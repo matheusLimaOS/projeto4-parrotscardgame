@@ -1,13 +1,17 @@
 let arrayCartas = [];
 let jaExisteCartaVirada = false;
 let paresDescobertos = 0;
-let numCartas;
+let numCartas = 0;
 let movimentos = 0;
 let dataInicio;
 let tempo;
 
 function inicio(){
     let i=0;
+    let cards = document.querySelector('.cards');
+    let temp = document.createElement('div');
+    temp.classList.add('temporizador');
+    cards.appendChild(temp);
 
     movimentos = 0;
     numCartas = prompt("Escolha um número par de cartas entre 4 e 14:");
@@ -15,6 +19,7 @@ function inicio(){
     paresDescobertos = 0;
     arrayCartas = [];
     dataInicio = new Date();
+
     comecaTemporizador();
 
     while(numCartas < 4 || numCartas > 14 || numCartas%2!==0){
@@ -43,6 +48,7 @@ function criarCartas(numCartas){
         img = document.createElement("img");
         img2 = document.createElement("img");
         card.classList.add("card");
+
         img.setAttribute("class","front-face face");
         img2.setAttribute("class","back-face face");
         img.setAttribute("src","./img/front 5.png");
@@ -50,13 +56,16 @@ function criarCartas(numCartas){
 
         card.appendChild(img);
         card.appendChild(img2);
+
         card.setAttribute("onclick","virarCarta(this)");
+
         cards.appendChild(card);
     }
 }
 function apagarCartas(){
     let cards = document.querySelector(".cards");
-    for(i=0;i<numCartas;i++){
+    let size = cards.children.length;
+    for(i=0;i<size;i++){
         cards.children[0].remove();
     }
 
@@ -78,15 +87,17 @@ async function virarCarta(card){
             if(paresDescobertos === numCartas/2){
                 setTimeout(()=>{
                     let time = tempo.split(":");
+                    let reinicio;
                     while(true){
-                        let reinicio = prompt(`Parabéns, você ganhou em ${movimentos} jogadas!. E com o tempo de ${time[0]} minutos e ${time[1]} segundos!\nDeseja jogar novamente? (sim ou não)`);
-                        if(reinicio.toLowerCase() === 'sim'){
-                            apagarCartas();
-                            inicio();
-                        }
-                        if(reinicio.toLowerCase() === 'não'){
+                        reinicio = prompt(`Parabéns, você ganhou em ${movimentos} jogadas!. E com o tempo de ${time[0]} minutos e ${time[1]} segundos!\nDeseja jogar novamente? (sim ou não)`);
+
+                        if(reinicio.toLowerCase() === 'sim' || reinicio.toLowerCase() === 'não'){
                             break;
                         }
+                    }
+                    if(reinicio.toLowerCase() === 'sim'){
+                        apagarCartas();
+                        inicio();
                     }
                 },1000);
             }
