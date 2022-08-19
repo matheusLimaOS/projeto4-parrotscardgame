@@ -6,11 +6,13 @@ let movimentos = 0;
 
 function inicio(){
     let i=0;
+
     movimentos = 0;
     numCartas = prompt("Escolha um número par de cartas entre 4 e 14:");
     jaExisteCartaVirada = false;
     paresDescobertos = 0;
     arrayCartas = [];
+
     while(numCartas < 4 || numCartas > 14 || numCartas%2!==0){
         numCartas = prompt("Número invalido! Por favor Insira um numero par entre 4 e 14!");
     }
@@ -26,6 +28,7 @@ function inicio(){
 
     criarCartas(numCartas,arrayCartas);
 }
+
 function criarCartas(numCartas){
     let cards = document.querySelector(".cards");
     let card;
@@ -37,9 +40,11 @@ function criarCartas(numCartas){
         img = document.createElement("img");
         img2 = document.createElement("img");
         card.classList.add("card");
+        img.setAttribute("class","front-face face");
+        img2.setAttribute("class","back-face face");
         img.setAttribute("src","./img/front 5.png");
         img2.setAttribute("src","/img/"+arrayCartas[i]+".gif");
-        img2.classList.add("displayNone");
+
         card.appendChild(img);
         card.appendChild(img2);
         card.setAttribute("onclick","virarCarta(this)");
@@ -53,11 +58,14 @@ function apagarCartas(){
     }
 
 }
-function virarCarta(card){
+async function virarCarta(card){
     movimentos++;
+    let imgs = card.children;
+
+    imgs[0].classList.add("esconde");
+    imgs[1].classList.add("aparece");
+
     if(jaExisteCartaVirada){
-        card.children[0].classList.add("displayNone");
-        card.children[1].classList.remove("displayNone");
         let img = cartaVirada.children[1].getAttribute('src');
         let img2 = card.children[1].getAttribute('src');
         if(img===img2){
@@ -66,8 +74,14 @@ function virarCarta(card){
             cartaVirada.removeAttribute("onclick");
             if(paresDescobertos === numCartas/2){
                 setTimeout(()=>{
-                    let reinicio = prompt("Parabéns, você ganhou em " + movimentos + " jogadas!\nDeseja jogar novamente? (sim ou não)");
-                    console.log(reinicio.toLowerCase());
+                    while(true){
+                        let reinicio = prompt("Parabéns, você ganhou em " + movimentos + " jogadas!\nDeseja jogar novamente? (sim ou não)");
+                        console.log
+                        if(reinicio.toLowerCase() === 'sim' || reinicio.toLowerCase() === 'não'){
+                            break;
+                        }
+                    }
+
                     if(reinicio.toLowerCase() === 'sim'){
                         apagarCartas();
                         inicio();
@@ -77,10 +91,10 @@ function virarCarta(card){
         }
         else{
             setTimeout(()=>{
-                card.children[0].classList.remove("displayNone");
-                card.children[1].classList.add("displayNone");
-                cartaVirada.children[0].classList.remove("displayNone");
-                cartaVirada.children[1].classList.add("displayNone");
+                card.children[0].classList.remove("esconde");
+                card.children[1].classList.remove("aparece");
+                cartaVirada.children[0].classList.remove("esconde");
+                cartaVirada.children[1].classList.remove("aparece");
             },1000);
         }
         jaExisteCartaVirada = false;
@@ -88,8 +102,6 @@ function virarCarta(card){
     else{
         jaExisteCartaVirada = true;
         cartaVirada = card;
-        card.children[0].classList.add("displayNone");
-        card.children[1].classList.remove("displayNone");
     }
 }
 
