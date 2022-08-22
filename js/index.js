@@ -74,6 +74,7 @@ async function criarCartas(numCartas){
         cards.appendChild(card);
     }
 }
+
 function apagarCartas(){
     let cards = document.querySelector(".cards");
     let size = cards.children.length;
@@ -82,15 +83,15 @@ function apagarCartas(){
     }
 
 }
+
 function virarCarta(card){
     numeroExecuções++;
-    console.log(numeroExecuções);
     if(numeroExecuções>2){
         return;
     }
     movimentos++;
     let imgs = card.children;
-
+    card.removeAttribute('onClick');
     imgs[0].classList.add("esconde");
     imgs[1].classList.add("aparece");
 
@@ -129,10 +130,12 @@ function virarCarta(card){
         }
         else{
             setTimeout(()=>{
+                card.setAttribute('onClick',"virarCarta(this)");
                 card.children[0].classList.remove("esconde");
                 card.children[1].classList.remove("aparece");
                 cartaVirada.children[0].classList.remove("esconde");
                 cartaVirada.children[1].classList.remove("aparece");
+                cartaVirada.setAttribute('onClick',"virarCarta(this)");
                 numeroExecuções=0;
             },1000);
         }
